@@ -1,0 +1,144 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/ParallaxBackground/Back.png" type="Texture" id=1]
+[ext_resource path="res://assets/ParallaxBackground/Wall5.png" type="Texture" id=2]
+[ext_resource path="res://assets/ParallaxBackground/Door.png" type="Texture" id=3]
+[ext_resource path="res://assets/ParallaxBackground/Wall3.png" type="Texture" id=4]
+[ext_resource path="res://scenes/Forniture/FirePlace.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Forniture/Clock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/ParallaxBackground/Wall1.png" type="Texture" id=7]
+[ext_resource path="res://assets/ParallaxBackground/Wall2.png" type="Texture" id=8]
+[ext_resource path="res://assets/ParallaxBackground/Wall4.png" type="Texture" id=9]
+[ext_resource path="res://assets/ParallaxBackground/Wall6.png" type="Texture" id=10]
+[ext_resource path="res://assets/ParallaxBackground/ClosetAndLamp.png" type="Texture" id=11]
+[ext_resource path="res://assets/ParallaxBackground/Floor.png" type="Texture" id=12]
+[ext_resource path="res://assets/ParallaxBackground/Background.png" type="Texture" id=13]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scroll_ignore_camera_zoom = true
+
+[node name="Wall" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2( 2550, 0 )
+
+[node name="Sprite" type="TextureRect" parent="Wall"]
+anchor_right = 1.0
+margin_top = -720.0
+margin_right = 2557.0
+margin_bottom = 60.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite2" type="TextureRect" parent="Wall"]
+anchor_right = 1.0
+margin_top = -1440.0
+margin_right = 2557.0
+margin_bottom = -720.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2( 2550, 0 )
+
+[node name="Floor" type="Sprite" parent="Back"]
+position = Vector2( 0, 398.095 )
+texture = ExtResource( 12 )
+centered = false
+
+[node name="Sprite" type="TextureRect" parent="Back"]
+margin_right = 2557.0
+margin_bottom = 504.0
+texture = ExtResource( 13 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackWall" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.2, 1 )
+
+[node name="Wall" type="Node2D" parent="BackWall"]
+
+[node name="Wall1" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 457.448, 0 )
+texture = ExtResource( 7 )
+
+[node name="Wall2" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 985.531, 0 )
+texture = ExtResource( 8 )
+
+[node name="Wall3" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 1550.61, 0 )
+texture = ExtResource( 4 )
+
+[node name="Wall4" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 2122.42, 0 )
+texture = ExtResource( 9 )
+
+[node name="Wall5" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 2896.05, 0 )
+texture = ExtResource( 2 )
+
+[node name="Wall6" type="Sprite" parent="BackWall/Wall"]
+position = Vector2( 3710.03, 0 )
+texture = ExtResource( 10 )
+
+[node name="Wall2" type="Node2D" parent="BackWall"]
+position = Vector2( 0, -832 )
+
+[node name="Wall1" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 457.448, 0 )
+texture = ExtResource( 7 )
+
+[node name="Wall2" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 985.531, 0 )
+texture = ExtResource( 8 )
+
+[node name="Wall3" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 1550.61, 0 )
+texture = ExtResource( 4 )
+
+[node name="Wall4" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 2122.42, 0 )
+texture = ExtResource( 9 )
+
+[node name="Wall5" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 2896.05, 0 )
+texture = ExtResource( 2 )
+
+[node name="Wall6" type="Sprite" parent="BackWall/Wall2"]
+position = Vector2( 3710.03, 0 )
+texture = ExtResource( 10 )
+
+[node name="FrontWall" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 7683, 0 )
+
+[node name="Door" type="Sprite" parent="FrontWall"]
+position = Vector2( -128.289, -8.02292 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( 480, 85 )
+region_enabled = true
+region_rect = Rect2( -16.099, -11, 385, 647 )
+region_filter_clip = true
+
+[node name="LampAndCloset" type="Sprite" parent="FrontWall"]
+position = Vector2( 1323.39, 142.674 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 11 )
+centered = false
+offset = Vector2( 480, 85 )
+
+[node name="Clock" parent="FrontWall" instance=ExtResource( 6 )]
+position = Vector2( 3389.47, 319.07 )
+scale = Vector2( 0.7, 0.7 )
+
+[node name="FirePlace" parent="FrontWall" instance=ExtResource( 5 )]
+position = Vector2( 4587.91, 354.244 )

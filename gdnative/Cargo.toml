@@ -1,0 +1,32 @@
+[package]
+name = "gdnative"
+authors = ["The godot-rust developers"]
+description = "The Godot game engine's gdnative bindings."
+documentation = "https://docs.rs/crate/gdnative"
+repository = "https://github.com/godot-rust/godot-rust"
+homepage = "https://godot-rust.github.io/"
+version = "0.9.3"
+license = "MIT"
+workspace = ".."
+readme = "../README.md"
+edition = "2018"
+
+[features]
+default = ["bindings"]
+formatted = ["gdnative-bindings/formatted", "gdnative-bindings/one_class_one_file"]
+
+gd_test = ["gdnative-core/gd_test"]
+type_tag_fallback = ["gdnative-core/type_tag_fallback"]
+bindings = ["gdnative-bindings"]
+
+[dependencies]
+gdnative-derive = { optional = true, path = "../gdnative-derive", version = "=0.9.3" }
+gdnative-core = { optional = true, path = "../gdnative-core", version = "=0.9.3" }
+gdnative-bindings = { optional = true, path = "../gdnative-bindings", version = "=0.9.3" }
+
+[dev-dependencies]
+trybuild = "1.0"
+rustversion = "1.0"
+
+[package.metadata.docs.rs]
+all-features = true

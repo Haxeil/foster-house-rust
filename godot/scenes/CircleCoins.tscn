@@ -1,0 +1,79 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Coin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/CircleCoins.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Spin"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 180.0, 360.0 ]
+}
+
+[node name="CircleCoins" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Coin" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -132.433 )
+
+[node name="Coin2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 66.3188, -110.233 )
+
+[node name="Coin3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 116.541, -63.3248 )
+
+[node name="Coin4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 131.316, 0 )
+
+[node name="Coin5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 116.541, 68.5992 )
+
+[node name="Coin6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 66.3188, 112.253 )
+
+[node name="Coin7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 134.453 )
+
+[node name="Coin8" parent="." instance=ExtResource( 1 )]
+position = Vector2( -65.976, 112.253 )
+
+[node name="Coin9" parent="." instance=ExtResource( 1 )]
+position = Vector2( -115.979, 68.5992 )
+
+[node name="Coin10" parent="." instance=ExtResource( 1 )]
+position = Vector2( -133.279, 0 )
+
+[node name="Coin11" parent="." instance=ExtResource( 1 )]
+position = Vector2( -115.979, -63.3248 )
+
+[node name="Coin12" parent="." instance=ExtResource( 1 )]
+position = Vector2( -65.976, -117.772 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Spin = SubResource( 1 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="body_entered" from="Coin" to="." method="_on_Coin_body_entered"]
+[connection signal="body_entered" from="Coin2" to="." method="_on_Coin2_body_entered"]
+[connection signal="body_entered" from="Coin3" to="." method="_on_Coin3_body_entered"]
+[connection signal="body_entered" from="Coin4" to="." method="_on_Coin4_body_entered"]
+[connection signal="body_entered" from="Coin5" to="." method="_on_Coin5_body_entered"]
+[connection signal="body_entered" from="Coin6" to="." method="_on_Coin6_body_entered"]
+[connection signal="body_entered" from="Coin7" to="." method="_on_Coin7_body_entered"]
+[connection signal="body_entered" from="Coin8" to="." method="_on_Coin8_body_entered"]
+[connection signal="body_entered" from="Coin9" to="." method="_on_Coin9_body_entered"]
+[connection signal="body_entered" from="Coin10" to="." method="_on_Coin10_body_entered"]
+[connection signal="body_entered" from="Coin11" to="." method="_on_Coin11_body_entered"]
+[connection signal="body_entered" from="Coin12" to="." method="_on_Coin12_body_entered"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]

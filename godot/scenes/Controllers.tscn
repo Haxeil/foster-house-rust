@@ -1,0 +1,185 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/Controllers/Circle.png" type="Texture" id=1]
+[ext_resource path="res://assets/Controllers/Stroke.png" type="Texture" id=2]
+[ext_resource path="res://assets/Controllers/Arrow.png" type="Texture" id=3]
+[ext_resource path="res://assets/Fonts/CARTOON FREE.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 80.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 80.0
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+outline_size = 4
+outline_color = Color( 0.968627, 0.133333, 0.133333, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 320, 360 )
+
+[node name="Controllers" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Movement" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 90.0
+margin_top = -113.0
+margin_right = 511.0
+margin_bottom = -21.0
+rect_scale = Vector2( 0.7, 0.7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="TextureRect" parent="Movement"]
+self_modulate = Color( 0.796078, 0.160784, 0.160784, 1 )
+margin_right = 127.0
+margin_bottom = 127.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stroke" type="TextureRect" parent="Movement/Left"]
+self_modulate = Color( 0.713726, 0.0901961, 0.0901961, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -68.0
+margin_right = 68.0
+margin_bottom = 68.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="TextureRect" parent="Movement/Left"]
+self_modulate = Color( 0.670588, 0.113725, 0.113725, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.5
+margin_top = -33.0
+margin_right = 35.5
+margin_bottom = 33.0
+texture = ExtResource( 3 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveLeft" type="TouchScreenButton" parent="Movement/Left"]
+position = Vector2( -19.5291, -16.8323 )
+shape = SubResource( 1 )
+action = "left"
+
+[node name="VSeparator" type="VSeparator" parent="Movement"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 131.0
+margin_right = 191.0
+margin_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 60
+
+[node name="Right" type="TextureRect" parent="Movement"]
+self_modulate = Color( 0.796078, 0.160784, 0.160784, 1 )
+margin_left = 195.0
+margin_right = 322.0
+margin_bottom = 127.0
+texture = ExtResource( 1 )
+
+[node name="Stroke" type="TextureRect" parent="Movement/Right"]
+self_modulate = Color( 0.713726, 0.0901961, 0.0901961, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -68.0
+margin_right = 68.0
+margin_bottom = 68.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="TextureRect" parent="Movement/Right"]
+self_modulate = Color( 0.670588, 0.113725, 0.113725, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.5
+margin_top = -33.0
+margin_right = 35.5
+margin_bottom = 33.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveRight" type="TouchScreenButton" parent="Movement/Right"]
+position = Vector2( -17.5065, -16.8323 )
+shape = SubResource( 2 )
+action = "right"
+
+[node name="VSeparator5" type="VSeparator" parent="Movement"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 326.0
+margin_right = 1456.0
+margin_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 1130
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Jump" type="TextureRect" parent="."]
+self_modulate = Color( 0.796078, 0.160784, 0.160784, 1 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -204.0
+margin_top = -144.0
+margin_right = -93.0
+margin_bottom = -26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Jump" type="Label" parent="Jump"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -48.5
+margin_top = -25.5
+margin_right = 48.5
+margin_bottom = 25.5
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.713726, 0.0901961, 0.0901961, 1 )
+text = "Jump"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JumpAction" type="TouchScreenButton" parent="Jump"]
+position = Vector2( -429.867, -574.532 )
+shape = SubResource( 4 )
+action = "jump"

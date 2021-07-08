@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/godot-ferris-1024x1024.png" type="Texture" id=2]
+
+[node name="Main" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.396078, 0, 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="Bllo" parent="." instance=ExtResource( 1 )]
+position = Vector2( 440.356, 0 )

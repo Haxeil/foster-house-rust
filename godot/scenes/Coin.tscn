@@ -1,0 +1,120 @@
+[gd_scene load_steps=36 format=2]
+
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_02.png" type="Texture" id=1]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_03.png" type="Texture" id=2]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_04.png" type="Texture" id=3]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_05.png" type="Texture" id=4]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_06.png" type="Texture" id=5]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_01.png" type="Texture" id=6]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_00.png" type="Texture" id=7]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_13.png" type="Texture" id=8]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_12.png" type="Texture" id=9]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_09.png" type="Texture" id=10]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_07.png" type="Texture" id=11]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_08.png" type="Texture" id=12]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_10.png" type="Texture" id=13]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_11.png" type="Texture" id=14]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_15.png" type="Texture" id=15]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_17.png" type="Texture" id=16]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_14.png" type="Texture" id=17]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_16.png" type="Texture" id=18]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_18.png" type="Texture" id=19]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_19.png" type="Texture" id=20]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_21.png" type="Texture" id=21]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_20.png" type="Texture" id=22]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_23.png" type="Texture" id=23]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_22.png" type="Texture" id=24]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_25.png" type="Texture" id=25]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_24.png" type="Texture" id=26]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_27.png" type="Texture" id=27]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_26.png" type="Texture" id=28]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_28.png" type="Texture" id=29]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_30.png" type="Texture" id=30]
+[ext_resource path="res://assets/CoinFrames/Armature_coin_spin_29.png" type="Texture" id=31]
+[ext_resource path="res://scripts/Coin.gd" type="Script" id=32]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 25 ), ExtResource( 28 ), ExtResource( 27 ), ExtResource( 29 ), ExtResource( 31 ), ExtResource( 30 ) ],
+"loop": true,
+"name": "Coin",
+"speed": 60.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 22.6043
+
+[sub_resource type="Animation" id=3]
+resource_name = "Picked"
+length = 0.6
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionShape2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 0.6, 0.6 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.3, 0.3 ), Vector2( 0.1, 0.1 ), Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimatedSprite:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[node name="Coin" type="Area2D"]
+monitorable = false
+collision_layer = 0
+script = ExtResource( 32 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+frames = SubResource( 1 )
+animation = "Coin"
+frame = 14
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Picked = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_Coin_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

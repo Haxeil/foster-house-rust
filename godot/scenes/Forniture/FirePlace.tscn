@@ -1,0 +1,183 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/ParallaxBackground/FirePlace/FirePlace.png" type="Texture" id=1]
+[ext_resource path="res://assets/ParallaxBackground/FirePlace/circlefireshape.png" type="Texture" id=2]
+
+[sub_resource type="Curve" id=1]
+max_value = 3.0
+_data = [ Vector2( 0.00281955, 2.19939 ), 0.0, -4.21403, 0, 1, Vector2( 0.299812, 0.947853 ), 0.0, 0.0, 0, 0, Vector2( 0.679511, 0.874233 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.174847 ), -2.18225, 0.0, 1, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.0225225, 0.121622, 0.315315, 0.536036, 0.711712, 0.851351, 0.972973 )
+colors = PoolColorArray( 0.941406, 0.854184, 0.455994, 1, 0.914063, 0.527927, 0.107117, 1, 0.944336, 0.637884, 0.109742, 1, 0.933594, 0.57757, 0.291748, 1, 0.987305, 0.0453157, 0.0453157, 1, 0.964844, 0.199753, 0.120605, 1, 0.952941, 0.145098, 0.0588235, 1 )
+
+[sub_resource type="Curve" id=3]
+max_value = 3.0
+_data = [ Vector2( 0, 0 ), 0.0, 2.5692, 0, 1, Vector2( 0.354603, 0.911043 ), 0.0, 0.0, 0, 0, Vector2( 0.672594, 1.09509 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.09509 ), 0.0, 0.0, 1, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.0045045, 0.801802 )
+colors = PoolColorArray( 1, 1, 1, 0.0784314, 0.113725, 0.105882, 0.105882, 0.152941 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0.0156904, 0.254601 ), 0.0, 0.873515, 0, 0, Vector2( 0.41318, 0.41411 ), 0.0, 0.0, 0, 0, Vector2( 0.593096, 0.365031 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.119632 ), -0.603088, 0.0, 1, 0 ]
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0.364865, 1 )
+colors = PoolColorArray( 0, 0, 0, 0.235294, 0, 0, 0, 0.0352941 )
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.0225225, 0.121622, 0.315315, 0.468468, 0.711712, 0.851351, 0.972973 )
+colors = PoolColorArray( 0.941406, 0.854184, 0.455994, 1, 0.914063, 0.693413, 0.107117, 1, 0.922436, 0.655006, 0.194116, 1, 0.850586, 0.345745, 0.206001, 1, 0.953125, 0.333251, 0.167542, 1, 0.964844, 0.199753, 0.120605, 1, 0.952941, 0.145098, 0.0588235, 1 )
+
+[node name="FirePlace" type="Node2D"]
+
+[node name="FirePlace" type="Node2D" parent="."]
+scale = Vector2( 0.7, 0.7 )
+
+[node name="Sprite" type="Sprite" parent="FirePlace"]
+texture = ExtResource( 1 )
+
+[node name="Fire" type="CPUParticles2D" parent="FirePlace"]
+position = Vector2( -5.26135, 117.909 )
+rotation = -1.5708
+emitting = false
+amount = 90
+lifetime = 2.0
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 15.22
+direction = Vector2( 0, 0 )
+spread = 11.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 50.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Smoke" type="CPUParticles2D" parent="FirePlace"]
+position = Vector2( -5.26135, 117.909 )
+rotation = -1.5708
+emitting = false
+amount = 40
+lifetime = 1.2
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+gravity = Vector2( 0, 0 )
+initial_velocity = 90.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Candles" type="Node2D" parent="."]
+scale = Vector2( 0.7, 0.7 )
+
+[node name="LeftCandle" type="Node2D" parent="Candles"]
+position = Vector2( -0.420448, 21.0224 )
+
+[node name="Smoke" type="CPUParticles2D" parent="Candles/LeftCandle"]
+position = Vector2( -40.9246, -272.67 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Fire" type="CPUParticles2D" parent="Candles/LeftCandle"]
+position = Vector2( -41.0182, -257.406 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 7 )
+
+[node name="MiddleCandle" type="Node2D" parent="Candles"]
+position = Vector2( 40.9453, 20.4921 )
+
+[node name="Smoke" type="CPUParticles2D" parent="Candles/MiddleCandle"]
+position = Vector2( -40.9246, -272.67 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Fire" type="CPUParticles2D" parent="Candles/MiddleCandle"]
+position = Vector2( -41.0182, -257.406 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 7 )
+
+[node name="RightCandle" type="Node2D" parent="Candles"]
+position = Vector2( 82.4878, 20.4921 )
+
+[node name="Smoke" type="CPUParticles2D" parent="Candles/RightCandle"]
+position = Vector2( -40.9246, -272.67 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Fire" type="CPUParticles2D" parent="Candles/RightCandle"]
+position = Vector2( -41.0182, -257.406 )
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 1.5
+texture = ExtResource( 2 )
+direction = Vector2( 0, 0 )
+spread = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 7 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 8300, 0 )
+rect = Rect2( -1000, -10, 3000, 20 )
+
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
