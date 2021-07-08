@@ -10,14 +10,26 @@
 * [Contact](#contact)
 
 ## General Information
-Put a more general information about your project
+im working on a simple 2d platformer game that i have made some progress developing using C# but now i decided to rewrite it using Rust.
 
 ## Setup
 Setup, installation, configuration, etc.
 
 ## Usage
 ```shell
-$ make run
+build-debug:
+$	make build-aarch64-linux-android-debug
+$	make build-armv7-linux-androideabi-debug
+$	make build-i686-linux-android-debug
+$	make build-x86_64-linux-android-debug
+$	make build-i686-unknown-linux-gnu-debug
+$	make build-x86_64-unknown-linux-gnu-debug
+$	make build-x86_64-apple-darwin-debug
+$	make build-aarch64-apple-ios-debug
+$	make build-i686-pc-windows-gnu-debug
+$	make build-x86_64-pc-windows-gnu-debug
+$	make build-i686-pc-windows-msvc-debug
+$	make build-x86_64-pc-windows-msvc-debug
 ```
 ## Contact
 haxeil-arch
