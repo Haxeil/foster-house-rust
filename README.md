@@ -5,15 +5,11 @@
 
 ## Table of contents
 * [General Information](#general-information)
-* [Setup](#setup)
 * [Usage](#usage)
 * [Contact](#contact)
 
 ## General Information
 im working on a simple 2d platformer game that i have made some progress developing using C# but now i decided to rewrite it using Rust.
-
-## Setup
-Setup, installation, configuration, etc.
 
 ## Usage
 ```shell
