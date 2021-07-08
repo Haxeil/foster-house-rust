@@ -1,7 +1,7 @@
 ![Project Logo](./godot/assets/godot-ferris-128x128.png)
 
-# godot-rust
-> Put the description here!
+# foster-house-rust
+> Simple 2d game made with Rust!
 
 ## Table of contents
 * [General Information](#general-information)
