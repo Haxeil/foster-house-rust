@@ -28,4 +28,5 @@ $	make build-i686-pc-windows-msvc-debug
 $	make build-x86_64-pc-windows-msvc-debug
 ```
 ## Contact
-haxeil-arch
+lezharayman@gmail.com
+discord : Haxeil#5415
