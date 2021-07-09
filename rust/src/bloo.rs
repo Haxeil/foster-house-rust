@@ -52,7 +52,7 @@ impl Bloo {
                 animation_player: None,
 
                 friction: 0.25,
-                facingdirection: 1,
+                facing_direction: Vector2::new(1.0, 0.0),
                 runtime_data: RuntimeData::new(),
                 global : None,
             },
@@ -113,7 +113,7 @@ impl Jump for Bloo {
         if Input::godot_singleton().is_action_pressed("jump")
             && (_owner.is_on_floor() || !cayote_timer.is_stopped())
         {
-            apply_damage(_owner, self, &10.0, -1.0, Vector2::new(240.0, 300.0));
+            //apply_damage(_owner, self, &10.0, -1.0, Vector2::new(240.0, 300.0));
             cayote_timer.stop();
             self.entity.velocity.y = -self.entity.jump_power;
             self.change_state(_owner, State::JUMP);
