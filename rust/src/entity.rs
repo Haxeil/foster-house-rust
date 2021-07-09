@@ -32,8 +32,8 @@ pub struct Entity {
 
     #[property(default = 0.25)]
     pub friction: f32,
-    #[property(default = 1)]
-    pub facingdirection: i8,
+    #[property]
+    pub facing_direction: Vector2,
     pub runtime_data: RuntimeData,
     pub global : Option<Ref<Node>>,
 }
@@ -54,7 +54,7 @@ impl Entity {
             animation_player: None,
 
             friction: 0.25,
-            facingdirection: 1,
+            facing_direction: Vector2::new(1.0, 0.0),
             runtime_data: RuntimeData::new(),
             global : None,
         }
@@ -100,15 +100,15 @@ impl FlipBody for Entity {
 
     // }
     fn flip_body(&mut self, _owner: &KinematicBody2D, flip_h: bool) {
-        let flip = |facing: &mut i8| {
+        let flip = |facing: &mut f32| {
             _owner.apply_scale(Vector2::new(-1.0, 1.0));
-            *facing *= -1;
+            *facing *= -1.0;
         };
 
-        if flip_h && self.facingdirection == -1 {
-            flip(&mut self.facingdirection);
-        } else if !flip_h && self.facingdirection == 1 {
-            flip(&mut self.facingdirection);
+        if flip_h && self.facing_direction.x == -1.0 {
+            flip(&mut self.facing_direction.x);
+        } else if !flip_h && self.facing_direction.x == 1.0 {
+            flip(&mut self.facing_direction.x);
         }
     }
 }
