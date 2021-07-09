@@ -1,5 +1,6 @@
 mod bloo;
 mod cheese;
+mod bullet;
 mod entity;
 mod enums;
 mod fps;
@@ -16,6 +17,7 @@ fn init(handle: InitHandle) {
     handle.add_class::<fps::FPS>();
     handle.add_class::<entity::Entity>();
     handle.add_class::<cheese::Cheese>();
+    handle.add_class::<bullet::Bullet>();
     
 }
 
