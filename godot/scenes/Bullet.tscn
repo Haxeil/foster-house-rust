@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/Weapons/Bullet.png" type="Texture" id=1]
-[ext_resource path="res://scripts/Bullet.cs" type="Script" id=2]
+[ext_resource path="res://native/Bullet.gdns" type="Script" id=2]
 
 [sub_resource type="PhysicsMaterial" id=1]
 bounce = 0.5
@@ -19,7 +19,6 @@ contacts_reported = 1
 contact_monitor = true
 can_sleep = false
 script = ExtResource( 2 )
-_maxBounces = 4
 
 [node name="Bullet" type="Sprite" parent="."]
 position = Vector2( -0.299803, -0.799801 )
@@ -34,6 +33,3 @@ shape = SubResource( 2 )
 [node name="FreeBullet" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
-
-[connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
-[connection signal="timeout" from="FreeBullet" to="." method="_on_FreeBullet_timeout"]
