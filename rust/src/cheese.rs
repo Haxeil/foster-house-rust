@@ -1,5 +1,6 @@
 use gdnative::prelude::*;
 use gdnative::api::*;
+use lerp::num_traits::ToPrimitive;
 use crate::bloo::Bloo;
 use crate::entity::Entity;
 use crate::runtime_data::RuntimeData;
@@ -7,8 +8,9 @@ use crate::traits::{Movement, FlipBody, SetHealth, PlayAnimation, ChangeState, S
 use lerp::num_traits::clamp;
 use lerp::Lerp;
 use crate::enums::State;
-use std::any::Any;
 use std::convert::TryInto;
+//use std::any::Any;
+//use std::convert::TryInto;
 use std::f64::consts::PI;
 
 #[derive(NativeClass)]
@@ -19,6 +21,8 @@ pub struct Cheese
 {
 
     entity : Entity,
+
+    bullet : Option<Ref<PackedScene>>,
 
     #[property]
     position_2d_path : NodePath,
@@ -34,6 +38,7 @@ pub struct Cheese
     deal_damage_to_bloo : f32,
     #[property]
     damage_velocity : Vector2,
+    #[property]
     additional_force : f32,
     #[property]
     edge_detection_path : NodePath,
@@ -42,6 +47,9 @@ pub struct Cheese
     wall_detection_path : NodePath,
     wall_detection : Option<Ref<RayCast2D>>,
     bloo_node : Option<Ref<KinematicBody2D>>,
+    #[property]
+    delay_timer_path : NodePath,
+    delay_timer_bullet : Option<Ref<Timer>>,
     
 
 }
@@ -73,10 +81,11 @@ impl Cheese
                 animation_player : None,
 
                 friction : 0.2,
-                facingdirection : 1,
+                facing_direction: Vector2::new(1.0, 0.0),
                 runtime_data : RuntimeData::new(),
                 global : None,
             },
+            bullet: None,
             position_2d: None,
             bullet_delay: true,
             launch_vector: Vector2::zero(),
@@ -91,6 +100,8 @@ impl Cheese
             edge_detection_path: NodePath::new(&GodotString::from("")),
             wall_detection_path: NodePath::new(&GodotString::from("")),
             bloo_node : None,
+            delay_timer_path: NodePath::new(&GodotString::from("")),
+            delay_timer_bullet: None,
             
 
   
@@ -112,9 +123,21 @@ impl Cheese
         self.edge_detection = Some(_owner.get_node_as::<RayCast2D>
             (self.edge_detection_path.to_string().as_str()).unwrap().assume_shared());
 
+        self.delay_timer_bullet = Some(_owner.get_node_as::<Timer>
+            (self.delay_timer_path.to_string().as_str()).unwrap().assume_shared());
+
         self.entity.animation_player = Some(_owner.get_node_as::<AnimationPlayer>
             (self.entity.animation_path.to_string().as_str()).unwrap().assume_shared());
 
+        self.bullet = Some(ResourceLoader::godot_singleton().load(
+        GodotString::from_str("res://scenes/Bullet.tscn"), 
+    GodotString::from_str("PackedScene"), false)
+            .unwrap()
+            .assume_safe()
+            .cast::<PackedScene>()
+            .unwrap()
+            .assume_shared());
+       
         self.bloo_node = Some(
             _owner.get_tree().unwrap().assume_safe()
                 .root().unwrap().assume_safe()
@@ -128,24 +151,76 @@ impl Cheese
             .unwrap()
             .assume_shared()
             .assume_safe().get_child(0);
+            
 
-        
+        let angle = Angle::radians(
+            self.position_2d
+            .unwrap()
+            .assume_safe()
+            .rotation() as f32
+        );
+
+
+        self.entity.facing_direction = self.entity.facing_direction.rotated(angle);        
     }
 
     #[export]
     unsafe fn _process(&mut self, _owner : &KinematicBody2D, _delta : f64)
     {
-        
+        self.shooting_in_range_target(_owner);
+
+
     }
 
     #[export]
     unsafe fn _physics_process(&mut self, _owner : &KinematicBody2D, _delta : f64)
     {
-        self.shooting_in_range_target(_owner);
         self.movement(_owner);
     }
 
+    fn bloo_in_range(&self, distance_to_bloo : f32) -> bool {
+        distance_to_bloo <= self.max_distence_range
+        
+    }
+    fn bloo_in_vision(&self, cheese_to_bloo_angle : f32) -> bool {
+        cheese_to_bloo_angle.abs() <= self.field_of_view.to_radians()
+    }
+
+    #[export]
+    fn _on_delay_time_out(&mut self, _owner: &KinematicBody2D) {
+        self.bullet_delay = true;
+    }
+
+    #[export]
+    unsafe fn send_bullet(&mut self, _owner: &KinematicBody2D) {
+
+        let bullet= self.bullet.as_ref()
+            .unwrap()
+            .assume_safe()
+            .instance(0)
+            .unwrap().assume_safe()
+            .cast::<RigidBody2D>()
+            .unwrap();
+
+        bullet.set_global_position(self.position_2d.unwrap().assume_safe().global_position());
+        bullet.set("damage_velocity", self.damage_velocity);
+        
+        
+        bullet.call("fire", 
+        &[self.launch_vector.to_variant(), 
+            Vector2::new(self.entity.facing_direction.x, 0.0).to_variant()]);
+
+        _owner.get_parent()
+            .unwrap()
+            .assume_safe()
+            .add_child(bullet, true);
+
+	}
+
+
 }
+
+
 
 impl Movement for Cheese
 {
@@ -159,7 +234,7 @@ impl Movement for Cheese
                                          (0.0, self.entity.friction);
                 //Lerp(_velocity.x, 0, _friction);
 
-                if self.entity.facingdirection == 1
+                if self.entity.facing_direction.x == 1.0
                 {
                     self.entity.flip_body(_owner, false);
                 }
@@ -174,7 +249,7 @@ impl Movement for Cheese
                 if self.entity.runtime_data.current_state != State::ATTACK
                 {
                     self.change_state(_owner, State::MOVE);
-                    self.entity.velocity.x = self.entity.speed * self.entity.facingdirection as f32;
+                    self.entity.velocity.x = self.entity.speed * self.entity.facing_direction.x as f32;
                 }
                 else
                 {
@@ -265,68 +340,60 @@ impl ShootingInrangeTarget for Cheese
             false,
         );
 
-
-
-
-        let collider = result.get("collider_id");
         
-        
-        godot_print!("{:?}, {:?}, {:?}",
-            collider, 
-            bloo_position,
-            self.bloo_node.unwrap().assume_safe());
+        let is_bloo_collider = result.get("collider").try_to_object::<KinematicBody2D>()
+            .unwrap().assume_safe().cast_instance::<Bloo>().is_some();
+         
+       
 
-        if result.is_empty() || result.get("count") == 0.to_variant()
+        if result.is_empty() || !is_bloo_collider
         {
-            
+            self.change_state(_owner, State::MOVE);
+            return;
         }
-            
+        let launch_position = self.position_2d
+            .unwrap()
+            .assume_safe()
+            .global_position();
+            // var distenceToBloo = (_gameManager.blooPosition - _launchPosition.GlobalPosition).Length();
+            // var directionToBloo = (_gameManager.blooPosition - _launchPosition.GlobalPosition);
+            // var cheeseToBlooAngle = facingDirection.AngleTo(directionToBloo);
+        let distance_to_bloo = (bloo_position - launch_position).length();
+        
+        let direction_to_bloo = bloo_position - launch_position;
 
-
+        let cheese_to_bloo_angle = self.entity.facing_direction.angle_to(direction_to_bloo).get();
         
 
-        /*
-        
-		var spaceState = GetWorld2d().DirectSpaceState;
-		var result = spaceState.IntersectRay(this.GlobalPosition, _gameManager.blooPosition, new Godot.Collections.Array { this }, this.CollisionMask);
-		if (result == null || result.Count == 0 || !(result["collider"] is Bloo))
-		{
-			EmitSignal("StateChanged", Enums.GamePlayState.MOVING);
-			return;
-		}
+        if self.bloo_in_range(distance_to_bloo) && self.bloo_in_vision(cheese_to_bloo_angle) {
+            if result.get("position").try_to_vector2().unwrap_or(Vector2::zero()) != Vector2::zero() {
+                if self.bullet_delay {
+                    self.launch_vector = Vector2::new(
+                        (cheese_to_bloo_angle * self.entity.facing_direction.x).cos() * self.entity.facing_direction.x as f32, 
+                       
+                        (cheese_to_bloo_angle * self.entity.facing_direction.x).sin() 
+                        
+                        
+                    ) * distance_to_bloo * self.additional_force;
 
-		var distenceToBloo = (_gameManager.blooPosition - _launchPosition.GlobalPosition).Length();
-		var directionToBloo = (_gameManager.blooPosition - _launchPosition.GlobalPosition);
-		var cheeseToBlooAngle = facingDirection.AngleTo(directionToBloo);
-		if (!(_BlooInRange(distenceToBloo) || _BlooInVision(cheeseToBlooAngle)))
-		{
-			EmitSignal("StateChanged", Enums.GamePlayState.MOVING);
+                    self.change_state(_owner, State::ATTACK);
 
-		}
-		else if(_BlooInRange(distenceToBloo) && _BlooInVision(cheeseToBlooAngle))
-		{
-			if (result["position"] is Vector2 position)
-			{
-				if (_bulletDelay)
-				{
-					_launchVector = new Vector2(Mathf.Cos(cheeseToBlooAngle * facingDirection.x) * facingDirection.x, Mathf.Sin(cheeseToBlooAngle * facingDirection.x)) * distenceToBloo * _applyMoreForce;
-					EmitSignal("StateChanged", Enums.GamePlayState.ATTACKING);
-					_delayTimerBullet.Start();
-					_bulletDelay = false;
-				}
-			}
-			else
-			{
-				EmitSignal("StateChanged", Enums.GamePlayState.MOVING);
-			}
-		}
-		else
-		{
-			EmitSignal("StateChanged", Enums.GamePlayState.MOVING);
-		}
+                    self.delay_timer_bullet
+                        .unwrap()
+                        .assume_safe()
+                        .start(-1.0);
 
-			
-        
-        */
+                    self.bullet_delay = false;
+                }
+  
+            }
+            else {
+                self.change_state(_owner, State::MOVE);
+            }
+        }
+        else {
+            self.change_state(_owner, State::MOVE);
+        }
+
     }
 }
