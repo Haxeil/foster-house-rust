@@ -64,6 +64,15 @@ jump={
 
 pointing/emulate_touch_from_mouse=true
 
+[layer_names]
+
+2d_physics/layer_1="Bloo"
+2d_physics/layer_2="Cheese"
+2d_physics/layer_3="Bullet"
+2d_physics/layer_4="FloatingTiles"
+2d_physics/layer_5="Tiles"
+2d_physics/layer_6="Savage"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
