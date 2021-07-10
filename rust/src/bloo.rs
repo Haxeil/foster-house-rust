@@ -102,6 +102,20 @@ impl Bloo {
         self.jump(_owner);
         self.movement(_owner);
     }
+    #[export]
+    fn apply_damage(
+        &mut self,
+        owner: &KinematicBody2D,
+        amount: f32,
+        enemy_direction: Vector2,
+        damage_velocity: Vector2,
+    ) {
+        self.change_state(owner, State::HURT);
+        self.set_health(owner, self.entity.health - amount);
+        self.entity.velocity = Vector2::zero();
+        //+= Vector2(damageVelocity.x * enemyDirection.x, damageVelocity.y);
+        self.entity.velocity += Vector2::new(damage_velocity.x * enemy_direction.x, damage_velocity.y);
+    }
 }
 
 impl Jump for Bloo {
@@ -248,19 +262,8 @@ impl Die for Bloo {
     }
 }
 
-fn apply_damage(
-    _owner: &KinematicBody2D,
-    bloo: &mut Bloo,
-    amount: &f32,
-    enemy_direction: f32,
-    damage_velocity: Vector2,
-) {
-    bloo.change_state(_owner, State::HURT);
-    bloo.set_health(_owner, bloo.entity.health - *amount);
-    bloo.entity.velocity = Vector2::zero();
-    //+= Vector2(damageVelocity.x * enemyDirection.x, damageVelocity.y);
-    bloo.entity.velocity += Vector2::new(damage_velocity.x * enemy_direction, damage_velocity.y);
-}
+
+
 
 impl SetHealth for Bloo {
     fn set_health(&mut self, _owner: &KinematicBody2D, value: f32) {
