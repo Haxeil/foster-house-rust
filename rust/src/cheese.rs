@@ -204,7 +204,7 @@ impl Cheese
 
         bullet.set_global_position(self.position_2d.unwrap().assume_safe().global_position());
         bullet.set("damage_velocity", self.damage_velocity);
-        
+        bullet.set("facing_direction", self.entity.facing_direction);
         
         bullet.call("fire", 
         &[self.launch_vector.to_variant(), 
