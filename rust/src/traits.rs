@@ -33,3 +33,9 @@ pub trait ShootingInrangeTarget
 {
     unsafe fn shooting_in_range_target(&mut self, _owner : &KinematicBody2D);
 }
+
+pub trait ApplyDamage {
+    fn apply_damage(&mut self, owner: &KinematicBody2D, amount: &f32,
+        enemy_direction: Vector2,
+        damage_velocity: Vector2,);
+}
