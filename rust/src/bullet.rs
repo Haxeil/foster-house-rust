@@ -1,6 +1,8 @@
 use gdnative::api::*;
 use gdnative::prelude::*;
 
+use crate::bloo::Bloo;
+
 
 #[derive(NativeClass)]
 #[inherit(RigidBody2D)]
@@ -13,7 +15,7 @@ pub struct Bullet {
     max_bounces: u16,
     free_bullet_timer: Option<Ref<Timer>>,
     bounces: u16,
-    facing_direction: u8,
+    facing_direction: Vector2,
     damage_velocity: Vector2,
 
 	
@@ -37,7 +39,7 @@ impl Bullet {
             max_bounces: 10,
             free_bullet_timer: None,
             bounces: 0,
-            facing_direction: 1,
+            facing_direction: Vector2::new(1.0, 0.0),
             damage_velocity: Vector2::zero(),
         }
     }
@@ -67,6 +69,62 @@ impl Bullet {
 		owner.apply_impulse(Vector2::zero(), force);
 	}
  
-    
+    #[export]
+    unsafe fn _on_bullet_body_entered(&mut self, owner : &RigidBody2D, obj: Ref<Object>) {
+        
+        let mut free_bullet = || {
+            self.free_bullet_timer.unwrap().assume_safe().start(-1.0);
+            self.bounces += 1;
+			
+			if self.bounces >= self.max_bounces {
+				owner.queue_free();
+			}
+        };
+        
+        let is_kinematic = obj
+            .assume_safe()
+            .cast::<KinematicBody2D>();
+            
+        if is_kinematic.is_none() {
+            free_bullet();
+        }
+        else {
+            let is_bloo = is_kinematic
+            .unwrap()
+            .cast_instance::<Bloo>();
+            if is_bloo.is_none() {
+                free_bullet();
+            }
+            else {
+                let bloo = is_bloo.unwrap().base();
+                bloo.call("apply_damage", &[self.deal_damage_to_bloo.to_variant(),
+                    self.facing_direction.to_variant(),
+                    self.damage_velocity.to_variant()]);
+            }
+        }
+
+
+
+
+    }
+
+    // amount: &f32,
+    // enemy_direction: f32,
+    // damage_velocity: Vector2,
+    // if (body is Bloo bloo)
+    // {
+    //     bloo.ApplyDamage(_dealDamageToBloo, facingDirection, damageVelocity);
+    //     QueueFree();
+    // }
+    // else
+    // {
+    //     FreeBullet.Start();
+    //     bounces++;
+    //     if (bounces >= _maxBounces)
+    //     {
+    //         QueueFree();
+            
+    //     }
+    // }
 
 }
