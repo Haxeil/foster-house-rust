@@ -221,10 +221,13 @@ position = Vector2( 762, 492 )
 position = Vector2( 1566.95, 568.515 )
 wall_detection_path = null
 damage_velocity = null
-field_of_view = null
-edge_detection_path = null
-position_2d_path = null
-max_distence_range = null
 deal_damage_to_bloo = null
+position_2d_path = null
+field_of_view = null
+max_distence_range = null
+edge_detection_path = null
+
+[connection signal="health_updated" from="Bloo" to="GUI/Interface/PlayerHealthBar" method="_on_Bloo_health_updated"]
+[connection signal="max_health_updated" from="Bloo" to="GUI/Interface/PlayerHealthBar" method="_on_Bloo_max_health_updated"]
 
 [editable path="ParallaxBackground"]
