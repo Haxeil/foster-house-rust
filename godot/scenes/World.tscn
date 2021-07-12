@@ -1,8 +1,8 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scenes/Bloo.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/Fonts/Lemon Friday.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://native/FPS.gdns" type="Script" id=3]
+[ext_resource path="res://native/FPS.gdns" type="Script" id=2]
+[ext_resource path="res://scenes/CircleCoins.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/ParallaxBackground.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Cheese.tscn" type="PackedScene" id=6]
@@ -12,12 +12,16 @@
 [ext_resource path="res://assets/tiles/edgeTopRight.png" type="Texture" id=10]
 [ext_resource path="res://scenes/FloatingTiles.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/CoinCounter.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/Savage.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scenes/Coin.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/LifePickUp.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/Controllers.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/Fonts/Lemon Friday.ttf" type="DynamicFontData" id=21]
 
 [sub_resource type="DynamicFont" id=1]
-size = 60
-font_data = ExtResource( 2 )
+size = 50
+use_filter = true
+font_data = ExtResource( 21 )
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 128, 128, 0, 128, 0, 0, 128, 0 )
@@ -138,23 +142,29 @@ __meta__ = {
 
 [node name="PlayerHealthBar" parent="GUI/Interface" instance=ExtResource( 5 )]
 
-[node name="FPS" type="Label" parent="GUI/Interface"]
+[node name="Controllers" parent="GUI" instance=ExtResource( 20 )]
+anchor_left = 0.00185814
+anchor_top = -0.0132134
+anchor_right = 1.00186
+anchor_bottom = 0.986787
+
+[node name="CoinCounter" parent="GUI" instance=ExtResource( 12 )]
+
+[node name="FPS" type="Label" parent="GUI"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -37.0
-margin_top = 79.0
-margin_right = 37.0
-margin_bottom = 51.0
+margin_left = -20.0
+margin_top = 65.0
+margin_right = 114.0
+margin_bottom = 14.0
 custom_fonts/font = SubResource( 1 )
-text = "00"
-script = ExtResource( 3 )
+custom_colors/font_color = Color( 0.921569, 0.0313726, 0.0313726, 1 )
+text = "0"
+align = 1
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Controllers" parent="GUI" instance=ExtResource( 20 )]
-
-[node name="CoinCounter" parent="GUI" instance=ExtResource( 12 )]
 
 [node name="TileSets" type="TileMap" parent="."]
 position = Vector2( 0, -40 )
@@ -167,8 +177,7 @@ format = 1
 tile_data = PoolIntArray( -458753, 536870912, 0, -393217, 536870912, 0, -327681, 536870912, 0, -262145, 536870912, 0, -196609, 536870912, 0, -131073, 536870912, 0, -65537, 536870912, 0, -1, 536870912, 0, 65535, 536870912, 0, 131071, 536870912, 0, 65618, 536870917, 0, 65619, 0, 0, 65620, 0, 0, 65621, 5, 0, 196607, 536870912, 0, 131114, 536870917, 0, 131115, 536870912, 0, 131116, 536870912, 0, 131117, 5, 0, 131154, 536870916, 0, 131155, 536870913, 0, 131156, 536870913, 0, 131157, 4, 0, 262143, 536870912, 0, 196639, 536870917, 0, 196640, 536870912, 0, 196641, 536870912, 0, 196642, 5, 0, 196649, 536870917, 0, 196650, 0, 0, 196651, 0, 0, 196652, 0, 0, 196653, 0, 0, 196654, 5, 0, 196689, 536870917, 0, 196690, 536870912, 0, 196691, 536870912, 0, 196692, 536870912, 0, 196693, 536870912, 0, 196694, 5, 0, 327679, 536870912, 0, 262175, 536870916, 0, 262176, 536870913, 0, 262177, 536870913, 0, 262178, 4, 0, 262185, 536870916, 0, 262186, 1, 0, 262187, 1, 0, 262188, 1, 0, 262189, 1, 0, 262190, 4, 0, 262204, 536870917, 0, 262205, 0, 0, 262206, 5, 0, 262225, 536870916, 0, 262226, 1, 0, 262227, 1, 0, 262228, 1, 0, 262229, 1, 0, 262230, 4, 0, 393215, 536870912, 0, 327680, 536870912, 0, 327681, 536870912, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 5, 0, 327697, 536870917, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 327703, 0, 0, 327704, 0, 0, 327705, 0, 0, 327706, 5, 0, 327708, 536870917, 0, 327709, 0, 0, 327710, 0, 0, 327711, 0, 0, 327712, 0, 0, 327713, 0, 0, 327714, 0, 0, 327715, 0, 0, 327716, 0, 0, 327717, 0, 0, 327718, 0, 0, 327719, 0, 0, 327720, 0, 0, 327721, 0, 0, 327722, 0, 0, 327723, 536870912, 0, 327724, 536870912, 0, 327725, 536870912, 0, 327726, 536870912, 0, 327727, 5, 0, 327737, 536870917, 0, 327738, 0, 0, 327739, 0, 0, 327740, 0, 0, 327741, 0, 0, 327742, 0, 0, 327743, 0, 0, 327744, 0, 0, 327745, 0, 0, 327746, 0, 0, 327747, 0, 0, 327748, 0, 0, 327749, 0, 0, 327750, 0, 0, 327751, 0, 0, 327752, 0, 0, 327753, 0, 0, 327754, 0, 0, 327755, 0, 0, 327756, 0, 0, 327757, 0, 0, 327758, 0, 0, 327759, 0, 0, 327760, 0, 0, 327761, 0, 0, 327762, 0, 0, 327763, 0, 0, 327764, 0, 0, 327765, 0, 0, 327766, 5, 0, 327779, 536870917, 0, 327780, 0, 0, 327781, 0, 0, 327782, 0, 0, 327783, 0, 0, 327784, 0, 0, 327785, 0, 0, 327786, 0, 0, 327787, 0, 0, 327788, 0, 0, 327789, 0, 0, 327790, 0, 0, 327791, 0, 0, 327792, 0, 0, 327793, 0, 0, 327794, 0, 0, 327795, 0, 0, 327796, 0, 0, 327797, 0, 0, 327798, 0, 0, 327799, 5, 0 )
 
 [node name="Bloo" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1069.87, 533.902 )
-sprite_animation_path = null
+position = Vector2( 65.1122, 518.286 )
 
 [node name="FloatingTiles" type="Node2D" parent="."]
 
@@ -214,18 +223,280 @@ position = Vector2( 12177.7, 135.764 )
 [node name="FloatingTile13" parent="FloatingTiles" instance=ExtResource( 11 )]
 position = Vector2( 12419.9, 421.669 )
 
-[node name="Coin" parent="." instance=ExtResource( 18 )]
-position = Vector2( 762, 492 )
+[node name="PwerUps" type="Node2D" parent="."]
 
-[node name="Cheese" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1566.95, 568.515 )
-wall_detection_path = null
-damage_velocity = null
-deal_damage_to_bloo = null
-position_2d_path = null
-field_of_view = null
-max_distence_range = null
-edge_detection_path = null
+[node name="Coins" type="Node2D" parent="PwerUps"]
+
+[node name="Groupe1" type="Node2D" parent="PwerUps/Coins"]
+
+[node name="Coin" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1067.11, 443.179 )
+
+[node name="Coin2" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 443.179 )
+
+[node name="Coin3" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 443.179 )
+
+[node name="Coin4" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 443.179 )
+
+[node name="Coin5" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 443.179 )
+
+[node name="Coin6" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 443.179 )
+
+[node name="Coin7" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1436.76, 443.179 )
+
+[node name="Coin8" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 292.812 )
+
+[node name="Coin9" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 371.149 )
+
+[node name="Coin10" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 367.346 )
+
+[node name="Coin11" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 367.346 )
+
+[node name="Coin12" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 371.149 )
+
+[node name="Coin13" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 371.149 )
+
+[node name="Coin14" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1436.76, 371.149 )
+
+[node name="Coin15" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1067.11, 366.974 )
+
+[node name="Coin16" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 299.198 )
+
+[node name="Coin17" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 300.746 )
+
+[node name="Coin18" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 300.746 )
+
+[node name="Coin19" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 297.366 )
+
+[node name="Coin20" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 236.29 )
+
+[node name="Coin21" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 236.29 )
+
+[node name="Coin22" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 236.29 )
+
+[node name="Coin23" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 183.705 )
+
+[node name="Coin24" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 995.753, 443.179 )
+
+[node name="Coin25" parent="PwerUps/Coins/Groupe1" instance=ExtResource( 18 )]
+position = Vector2( 1494.98, 443.179 )
+
+[node name="Groupe2" type="Node2D" parent="PwerUps/Coins"]
+position = Vector2( 2963.65, -158.821 )
+
+[node name="Coin2" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 443.179 )
+
+[node name="Coin3" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 443.179 )
+
+[node name="Coin4" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 443.179 )
+
+[node name="Coin5" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 443.179 )
+
+[node name="Coin6" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 443.179 )
+
+[node name="Coin8" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 292.812 )
+
+[node name="Coin9" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 371.149 )
+
+[node name="Coin10" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 367.346 )
+
+[node name="Coin11" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 367.346 )
+
+[node name="Coin12" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 371.149 )
+
+[node name="Coin13" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 371.149 )
+
+[node name="Coin16" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 299.198 )
+
+[node name="Coin17" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 300.746 )
+
+[node name="Coin18" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 300.746 )
+
+[node name="Coin19" parent="PwerUps/Coins/Groupe2" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 297.366 )
+
+[node name="Groupe3" type="Node2D" parent="PwerUps/Coins"]
+position = Vector2( 2023.55, 105.464 )
+
+[node name="Coin2" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 443.179 )
+
+[node name="Coin3" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 443.179 )
+
+[node name="Coin4" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 443.179 )
+
+[node name="Coin5" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 443.179 )
+
+[node name="Coin6" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 443.179 )
+
+[node name="Coin8" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 292.812 )
+
+[node name="Coin9" parent="PwerUps/Coins/Groupe3" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 371.149 )
+
+[node name="Groupe4" type="Node2D" parent="PwerUps/Coins"]
+position = Vector2( 5570, 117 )
+scale = Vector2( 1, -1 )
+
+[node name="Coin2" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 443.179 )
+
+[node name="Coin3" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 443.179 )
+
+[node name="Coin4" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 443.179 )
+
+[node name="Coin5" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 443.179 )
+
+[node name="Coin6" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 443.179 )
+
+[node name="Coin8" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 292.812 )
+
+[node name="Coin9" parent="PwerUps/Coins/Groupe4" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 371.149 )
+
+[node name="Groupe5" type="Node2D" parent="PwerUps/Coins"]
+position = Vector2( 6630.97, -129.959 )
+
+[node name="Coin2" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1145.44, 443.179 )
+
+[node name="Coin3" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1206.91, 443.179 )
+
+[node name="Coin4" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 443.179 )
+
+[node name="Coin5" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1314.71, 443.179 )
+
+[node name="Coin6" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1372.62, 443.179 )
+
+[node name="Coin8" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 292.812 )
+
+[node name="Coin9" parent="PwerUps/Coins/Groupe5" instance=ExtResource( 18 )]
+position = Vector2( 1263.93, 371.149 )
+
+[node name="RandomCoins" type="Node2D" parent="PwerUps/Coins"]
+
+[node name="Coin" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 3349, -252.96 )
+
+[node name="Coin2" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 3403.49, -252.96 )
+
+[node name="Coin3" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 3898.63, -312.668 )
+
+[node name="Coin4" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 4006.23, -247.541 )
+
+[node name="Coin5" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 4105.33, -108.791 )
+
+[node name="Coin6" parent="PwerUps/Coins/RandomCoins" instance=ExtResource( 18 )]
+position = Vector2( 3820.67, 161.923 )
+
+[node name="CircleCoins" parent="PwerUps/Coins" instance=ExtResource( 3 )]
+position = Vector2( 4904.29, 347.248 )
+
+[node name="Lifes" type="Node2D" parent="PwerUps"]
+
+[node name="LifePickUp" parent="PwerUps/Lifes" instance=ExtResource( 19 )]
+position = Vector2( 3107.28, 568.427 )
+
+[node name="LifePickUp2" parent="PwerUps/Lifes" instance=ExtResource( 19 )]
+position = Vector2( 6826.93, -39.7263 )
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Cheeses" type="Node2D" parent="NPCs"]
+
+[node name="Cheese" parent="NPCs/Cheeses" instance=ExtResource( 6 )]
+position = Vector2( 4199.84, 271.743 )
+
+[node name="Cheese3" parent="NPCs/Cheeses" instance=ExtResource( 6 )]
+position = Vector2( 10814.3, 51.1987 )
+
+[node name="Savage" type="Node2D" parent="NPCs"]
+
+[node name="Savage" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 1534.57, 552.411 )
+
+[node name="Savage2" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 2452.72, 308.674 )
+
+[node name="Savage3" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 6906.17, 74.958 )
+
+[node name="Savage4" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 6590.17, 80.958 )
+
+[node name="Savage5" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 7899.69, 434.559 )
+
+[node name="Savage6" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 11750.3, -12.5833 )
+
+[node name="Savage7" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 12052.4, -212.37 )
+
+[node name="Savage8" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 3657.29, -233.397 )
+
+[node name="Savage9" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 8954, 552.794 )
+
+[node name="Savage10" parent="NPCs/Savage" instance=ExtResource( 16 )]
+position = Vector2( 14341.4, 583.032 )
 
 [connection signal="health_updated" from="Bloo" to="GUI/Interface/PlayerHealthBar" method="_on_Bloo_health_updated"]
 [connection signal="max_health_updated" from="Bloo" to="GUI/Interface/PlayerHealthBar" method="_on_Bloo_max_health_updated"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/Savage/RightEyeBall.png" type="Texture" id=1]
 [ext_resource path="res://assets/Savage/LeftEye.png" type="Texture" id=2]
@@ -7,8 +7,7 @@
 [ext_resource path="res://assets/Savage/LeftEyeBall.png" type="Texture" id=5]
 [ext_resource path="res://assets/Savage/Body.png" type="Texture" id=6]
 [ext_resource path="res://assets/Savage/Frackle.png" type="Texture" id=7]
-[ext_resource path="res://scripts/Savage.cs" type="Script" id=8]
-[ext_resource path="res://RuntimeData/Savage/SavageRuntimeData.tres" type="Resource" id=9]
+[ext_resource path="res://scripts/Savage.gdns" type="Script" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -26,14 +25,11 @@ extents = Vector2( 10.0393, 12 )
 collision_layer = 32
 collision_mask = 29
 script = ExtResource( 8 )
-_runtimeDataRes = ExtResource( 9 )
-_maxSpeed = 250.0
-_gravity = 30.0
-_jumpPower = 1200.0
-animationPlayerRes = NodePath("Body/SavageAnimation")
-_dealDamageToBloo = 2.0
-damageVelocity = Vector2( -1000, -400 )
-hitBouncePower = Vector2( 600, -200 )
+damage_velocity = Vector2( 1000, -400 )
+wall_detection_path = NodePath("Body/WallDetection")
+hit_bounce_power = Vector2( 1000, -200 )
+edge_detection_path = NodePath("Body/EdgeDetection")
+deal_damage_to_bloo = 2.0
 
 [node name="Body" type="Node2D" parent="."]
 
@@ -104,7 +100,7 @@ one_shot = true
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -250, -40, 500, 80 )
 
-[connection signal="body_entered" from="JumpDetection" to="." method="_on_JumpDetection_body_entered"]
-[connection signal="timeout" from="HitBlooDelay" to="." method="_on_HitBlooDelay_timeout"]
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="body_entered" from="JumpDetection" to="." method="_on_jump_detection_body_entered"]
+[connection signal="timeout" from="HitBlooDelay" to="." method="_on_hit_bloo_delay_timeout"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_visibility_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_visibility_screen_exited"]

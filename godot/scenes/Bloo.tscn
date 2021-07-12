@@ -29,11 +29,6 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "Die",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 14 ), ExtResource( 12 ), ExtResource( 21 ), ExtResource( 20 ), ExtResource( 17 ) ],
 "loop": true,
 "name": "Move",
@@ -58,6 +53,11 @@ animations = [ {
 "loop": true,
 "name": "Jump",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Die",
+"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -1170,7 +1170,6 @@ script = ExtResource( 1 )
 sprite_animation_path = NodePath("Body/Torso")
 
 [node name="Body" type="Node2D" parent="."]
-position = Vector2( 0, -0.773821 )
 scale = Vector2( 0.6, 0.6 )
 
 [node name="Torso" type="AnimatedSprite" parent="Body"]
@@ -1189,9 +1188,9 @@ position = Vector2( 23.068, -42.5135 )
 texture = ExtResource( 6 )
 
 [node name="Mouth0" type="Sprite" parent="Body/Face"]
-position = Vector2( -4.02729, -10.2613 )
+position = Vector2( 0.877943, -11.6628 )
 scale = Vector2( 0.77115, 0.77115 )
-texture = ExtResource( 26 )
+texture = ExtResource( 5 )
 
 [node name="WhiteEyeLeft" type="Sprite" parent="Body/Face"]
 position = Vector2( -13.8922, -43.5135 )
@@ -1202,13 +1201,11 @@ position = Vector2( 22.8626, -42.7368 )
 texture = ExtResource( 9 )
 
 [node name="blackEyeLeft" type="Sprite" parent="Body/Face"]
-visible = false
 position = Vector2( -12.2666, -44.0202 )
 texture = ExtResource( 4 )
 
 [node name="blackEyeRight" type="Sprite" parent="Body/Face"]
-visible = false
-position = Vector2( 24.6773, -43.8702 )
+position = Vector2( 23.0401, -42.0229 )
 texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -1244,5 +1241,6 @@ rect = Rect2( -100, -75, 200, 150 )
 wait_time = 1.5
 one_shot = true
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="OnDeadRestart" to="." method="_on_OnDeadRestart_timeout"]
