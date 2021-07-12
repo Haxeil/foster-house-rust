@@ -1,11 +1,12 @@
 mod bloo;
-mod cheese;
 mod bullet;
+mod cheese;
 mod entity;
 mod enums;
 mod fps;
 mod game_manager;
 mod runtime_data;
+mod savage;
 mod traits;
 //use gdnative::prelude::{godot_init, InitHandle};
 use gdnative::prelude::*;
@@ -18,7 +19,7 @@ fn init(handle: InitHandle) {
     handle.add_class::<entity::Entity>();
     handle.add_class::<cheese::Cheese>();
     handle.add_class::<bullet::Bullet>();
-    
+    handle.add_class::<savage::Savage>();
 }
 
 // macros that create the entry-points of the dynamic library.
