@@ -41,7 +41,6 @@ impl Bloo {
     fn new(_owner: &KinematicBody2D) -> Self {
         Bloo {
             entity: Entity {
-                
                 max_health: 100.0,
                 health: 0.0,
                 speed: 300.0,
@@ -54,9 +53,9 @@ impl Bloo {
                 friction: 0.25,
                 facing_direction: Vector2::new(1.0, 0.0),
                 runtime_data: RuntimeData::new(),
-                global : None,
+                global: None,
             },
-            sprite_animation_path: NodePath::new(&GodotString::from("Torso")),
+            sprite_animation_path: NodePath::new(&GodotString::from("")),
             sprite_animation: None,
         }
     }
@@ -67,8 +66,10 @@ impl Bloo {
     // The owner is passed to every single exposed method.
     #[export]
     unsafe fn _ready(&mut self, _owner: &KinematicBody2D) {
+        self.entity._ready(_owner);
+
         self.entity.animation_path = NodePath::new(&GodotString::from("AnimationPlayer"));
-        self.sprite_animation_path = NodePath::new(&GodotString::from("Body/Torso"));
+        //self.sprite_animation_path = Some(NodePath::new(&GodotString::from("Body/Torso")));
 
         self.entity.health = self.entity.max_health;
 
@@ -89,9 +90,12 @@ impl Bloo {
                 .unwrap()
                 .assume_shared(),
         );
-        self.entity.global = _owner.get_node_as::<Node>("/root/RustGlobals")
-        .unwrap().assume_shared().assume_safe().get_child(0);
-
+        self.entity.global = _owner
+            .get_node_as::<Node>("/root/RustGlobals")
+            .unwrap()
+            .assume_shared()
+            .assume_safe()
+            .get_child(0);
 
         self.entity._ready(_owner);
     }
@@ -113,8 +117,23 @@ impl Bloo {
         self.change_state(owner, State::HURT);
         self.set_health(owner, self.entity.health - amount);
         self.entity.velocity = Vector2::zero();
-        //+= Vector2(damageVelocity.x * enemyDirection.x, damageVelocity.y);
-        self.entity.velocity += Vector2::new(damage_velocity.x * enemy_direction.x, damage_velocity.y);
+        self.entity.velocity +=
+            Vector2::new(damage_velocity.x * enemy_direction.x, damage_velocity.y);
+    }
+    #[export]
+    fn heal(&mut self, owner: &KinematicBody2D, health: u32) {
+        self.set_health(owner, self.entity.health + health as f32);
+    }
+    #[export]
+    fn _on_animation_player_animation_finished(&mut self, owner: &KinematicBody2D, anim_name: Variant) {
+        if anim_name.try_to_string().unwrap_or("Idle".to_string()).as_str() == "Hurt" {
+            self.change_state(owner, State::IDLE);
+        }
+
+    }
+    fn not_dead_or_hurt(&mut self, onwer: &KinematicBody2D) -> bool {
+        self.entity.runtime_data.current_state != State::HURT
+            && self.entity.runtime_data.current_state != State::DEAD
     }
 }
 
@@ -124,7 +143,7 @@ impl Jump for Bloo {
 
         let cayote_timer = unsafe { _owner.get_node_as::<Timer>("CayoteTimer").unwrap() };
 
-        if Input::godot_singleton().is_action_pressed("jump")
+        if (Input::godot_singleton().is_action_pressed("jump") && self.not_dead_or_hurt(_owner))
             && (_owner.is_on_floor() || !cayote_timer.is_stopped())
         {
             //apply_damage(_owner, self, &10.0, -1.0, Vector2::new(240.0, 300.0));
@@ -177,24 +196,7 @@ impl ChangeState for Bloo {
 
 impl Gravity for Bloo {
     fn gravity(&mut self, _owner: &KinematicBody2D) {
-        if _owner.is_on_ceiling() {
-            self.entity.velocity.y = self.entity.gravity;
-        }
-
-        if _owner.is_on_floor() {
-            self.entity.velocity.y = 0.0;
-        } else {
-            self.entity.velocity.y += self.entity.gravity;
-
-            if self.entity.velocity.y != 0.0
-                && self.entity.velocity.y > self.entity.gravity
-                && self.entity.velocity.y > -self.entity.jump_power / self.entity.gravity
-            {
-                //unsafe { change_state(_owner, State::Bloo(BlooState::FALL), bloo) }
-
-                self.change_state(_owner, State::FALL);
-            }
-        }
+        self.entity.gravity(_owner);
     }
 }
 
@@ -215,17 +217,23 @@ impl Movement for Bloo {
         //     godot_print!("{:?}", result);
         // }
 
-        if input.is_action_pressed("right") {
+        if input.is_action_pressed("right")
+            && !input.is_action_pressed("left")
+            && self.not_dead_or_hurt(_owner)
+        {
             self.entity.velocity.x = self.entity.speed;
             self.change_state(_owner, State::MOVE);
             self.entity.flip_body(_owner, true);
-        } else if input.is_action_pressed("left") {
+        } else if input.is_action_pressed("left")
+            && !input.is_action_pressed("right")
+            && self.not_dead_or_hurt(_owner)
+        {
             self.entity.velocity.x = -self.entity.speed;
             self.change_state(_owner, State::MOVE);
             self.entity.flip_body(_owner, false);
         } else {
             self.entity.velocity.x = self.entity.velocity.x.lerp(0.0, self.entity.friction);
-            if _owner.is_on_floor() {
+            if _owner.is_on_floor() && self.not_dead_or_hurt(_owner) {
                 self.change_state(_owner, State::IDLE);
             }
         }
@@ -246,9 +254,9 @@ impl Movement for Bloo {
             cayote_timer.start(-1.0);
         }
 
-        unsafe
-        {
-            self.entity.global
+        unsafe {
+            self.entity
+                .global
                 .unwrap()
                 .assume_safe()
                 .set("bloo_global_position", _owner.global_position());
@@ -261,9 +269,6 @@ impl Die for Bloo {
         _owner.queue_free();
     }
 }
-
-
-
 
 impl SetHealth for Bloo {
     fn set_health(&mut self, _owner: &KinematicBody2D, value: f32) {
