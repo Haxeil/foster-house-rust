@@ -7,9 +7,9 @@ use lerp::num_traits::clamp;
 use gdnative::nativescript::{Export, Instance};
 //use gdnative::nativescript::init::property::RangeHint;
 use crate::enums::State;
-use crate::runtime_data::RuntimeData;
-use crate::traits::{ChangeState, FlipBody};
 use crate::game_manager::GameManager;
+use crate::runtime_data::RuntimeData;
+use crate::traits::{ChangeState, FlipBody, Gravity};
 
 #[derive(NativeClass)]
 #[inherit(KinematicBody2D)]
@@ -35,7 +35,7 @@ pub struct Entity {
     #[property]
     pub facing_direction: Vector2,
     pub runtime_data: RuntimeData,
-    pub global : Option<Ref<Node>>,
+    pub global: Option<Ref<Node>>,
 }
 
 #[methods]
@@ -56,16 +56,13 @@ impl Entity {
             friction: 0.25,
             facing_direction: Vector2::new(1.0, 0.0),
             runtime_data: RuntimeData::new(),
-            global : None,
+            global: None,
         }
     }
 
     #[export]
-    pub unsafe fn _ready(&mut self, _owner : &KinematicBody2D)
-    {
-
-        
-  
+    pub unsafe fn _ready(&mut self, _owner: &KinematicBody2D) {
+        self.health = self.max_health;
         // self.animation_player = Some(_owner.get_node_as::<AnimationPlayer>
         //     (self.animation_path.to_string().as_str()).unwrap().assume_shared());
 
@@ -109,6 +106,29 @@ impl FlipBody for Entity {
             flip(&mut self.facing_direction.x);
         } else if !flip_h && self.facing_direction.x == 1.0 {
             flip(&mut self.facing_direction.x);
+        }
+    }
+}
+
+impl Gravity for Entity {
+    fn gravity(&mut self, _owner: &KinematicBody2D) {
+        if _owner.is_on_ceiling() {
+            self.velocity.y = self.gravity;
+        }
+
+        if _owner.is_on_floor() {
+            self.velocity.y = 0.0;
+        } else {
+            self.velocity.y += self.gravity;
+
+            if self.velocity.y != 0.0
+                && self.velocity.y > self.gravity
+                && self.velocity.y > -self.jump_power / self.gravity
+            {
+                //unsafe { change_state(_owner, State::Bloo(BlooState::FALL), bloo) }
+
+                self.change_state(_owner, State::FALL);
+            }
         }
     }
 }
