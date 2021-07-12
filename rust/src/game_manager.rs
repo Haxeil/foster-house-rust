@@ -9,7 +9,7 @@ pub struct GameManager {
     #[property(default = 20)]
     pub coin_counter: u32,
     #[property]
-    pub bloo_global_position : Vector2,
+    pub bloo_global_position: Vector2,
     //pub bloo_runtime_data : BlooRuntimeData,
 }
 
@@ -28,11 +28,13 @@ impl GameManager {
     }
 
     fn new(_owner: &Node) -> Self {
-        GameManager { coin_counter: 20 , bloo_global_position : Vector2::zero()}
+        GameManager {
+            coin_counter: 20,
+            bloo_global_position: Vector2::zero(),
+        }
     }
     #[export]
-    pub fn get_bloo_gb_position(&self, _owner : &Node) -> Vector2
-    {
+    pub fn get_bloo_gb_position(&self, _owner: &Node) -> Vector2 {
         self.bloo_global_position
     }
 
